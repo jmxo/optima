@@ -2,9 +2,6 @@
 #Start with a base image containing Java runtime
 FROM openjdk:11-slim as build
 
-# Add Maintainer Info
-LABEL maintainer="Mohamed Ismat <mohamedismat91@gmail.com>"
-
 # The application's jar file
 ARG JAR_FILE
 
