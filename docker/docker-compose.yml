@@ -78,7 +78,7 @@ services:
       backend:
         aliases:
           - "zookeeper"
-  kafkaserver:
+  kafka:
     image: wurstmeister/kafka:latest
     ports:
       - 9092:9092
@@ -86,7 +86,7 @@ services:
       - KAFKA_ADVERTISED_HOST_NAME=kafka
       - KAFKA_ADVERTISED_PORT=9092
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_CREATE_TOPICS=dresses:1:1,ratings:1:1
+      - KAFKA_CREATE_TOPICS=orgChangeTopic:1:1
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
     depends_on:
@@ -109,6 +109,8 @@ services:
         condition: service_healthy
       configserver:
         condition: service_started
+      kafka:
+        condition: service_started
     ports:
       - "8080:8080"
     networks:
@@ -126,6 +128,8 @@ services:
       database:
         condition: service_healthy
       configserver:
+        condition: service_started
+      kafka:
         condition: service_started
     ports:
       - "8081:8081"
